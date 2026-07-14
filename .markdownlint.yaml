@@ -1,8 +1,8 @@
-# markdownlint config used by Super-Linter (VALIDATE_MARKDOWN).
+# markdownlint configuration (used by markdownlint-cli2).
 # Keep structural checks; relax stylistic rules that hand-written docs trip.
 default: true
 MD013: false   # line length
-MD024: false   # duplicate heading text (e.g. repeated "Web app")
+MD024: false   # duplicate heading text
 MD026: false   # trailing punctuation in headings
 MD029: false   # ordered list numbering style
 MD033: false   # inline HTML — allowed in docs

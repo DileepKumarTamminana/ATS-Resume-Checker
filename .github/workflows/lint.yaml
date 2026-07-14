@@ -1,13 +1,8 @@
 name: Lint (all files)
 
-# Universal linter (Super-Linter) for non-Python files. Runs in opt-in mode:
-# only the validators enabled below run, which keeps results predictable.
-# Python is intentionally left to ruff/mypy in code-checks.yaml.
-#
-# To lint a language you add later, set its flag to true, e.g.:
-#   VALIDATE_JAVASCRIPT_ES: true      # JS/TS
-#   VALIDATE_GO: true
-#   VALIDATE_DOCKERFILE_HADOLINT: true
+# Config & docs linting via dedicated, transparent steps — each linter is its
+# own step so failures are easy to attribute. Python is linted by ruff/mypy in
+# code-checks.yaml. Add language linters here as steps when new languages land.
 
 on:
   push:
@@ -19,29 +14,27 @@ permissions:
   contents: read
 
 jobs:
-  super-lint:
-    name: Super-Linter
+  lint:
+    name: Config & docs lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Lint GitHub Actions workflows (actionlint)
+        uses: raven-actions/actionlint@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          fetch-depth: 0  # full history so PRs can lint only changed files
+          python-version: "3.12"
 
-      - name: Lint codebase
-        uses: super-linter/super-linter@v7
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: true
+      - name: Lint YAML (yamllint)
+        run: |
+          pip install yamllint
+          yamllint -c .yamllint.yml .
 
-          # Rule configs live in .github/linters/.
-          MARKDOWN_CONFIG_FILE: .markdown-lint.yml
-          YAML_CONFIG_FILE: .yaml-lint.yml
-
-          # Opt-in: only these validators run.
-          VALIDATE_YAML: true
-          VALIDATE_MARKDOWN: true
-          VALIDATE_JSON: true
-          VALIDATE_GITHUB_ACTIONS: true
-          VALIDATE_BASH: true
+      - name: Lint Markdown (markdownlint)
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: "**/*.md"

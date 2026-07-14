@@ -1,4 +1,4 @@
-# yamllint config used by Super-Linter (VALIDATE_YAML).
+# yamllint configuration.
 extends: default
 rules:
   line-length: disable
