@@ -66,14 +66,70 @@ SKILL_ALIASES: dict[str, set[str]] = {
     "project management": {"project management"},
     "html": {"html", "html5"},
     "css": {"css", "css3"},
+    # Languages
+    ".net": {".net", "dotnet", "asp.net"},
+    "scala": {"scala"},
+    "kotlin": {"kotlin"},
+    "ruby": {"ruby", "ruby on rails", "rails"},
+    "php": {"php"},
+    "swift": {"swift"},
+    "r": {"r programming", "rlang", "rstudio"},  # avoid bare "r" (too many false positives)
+    "matlab": {"matlab"},
+    "perl": {"perl"},
+    "bash": {"bash", "shell scripting"},
+    "powershell": {"powershell"},
+    # Databases / stores
+    "elasticsearch": {"elasticsearch", "elastic search", "elk"},
+    "dynamodb": {"dynamodb", "dynamo db"},
+    "cassandra": {"cassandra"},
+    "oracle": {"oracle"},
+    "sqlite": {"sqlite"},
+    "snowflake": {"snowflake"},
+    # Data engineering / ML
+    "airflow": {"airflow", "apache airflow"},
+    "databricks": {"databricks"},
+    "etl": {"etl"},
+    "keras": {"keras"},
+    "xgboost": {"xgboost"},
+    "opencv": {"opencv"},
+    # Messaging / APIs
+    "rabbitmq": {"rabbitmq", "rabbit mq"},
+    "grpc": {"grpc"},
+    # Testing
+    "selenium": {"selenium"},
+    "pytest": {"pytest"},
+    "cypress": {"cypress"},
+    "jest": {"jest"},
+    "junit": {"junit"},
+    # Frontend
+    "next.js": {"next.js", "nextjs"},
+    "redux": {"redux"},
+    "tailwind": {"tailwind", "tailwind css"},
+    "bootstrap": {"bootstrap"},
+    "jquery": {"jquery"},
+    "sass": {"sass", "scss"},
+    "webpack": {"webpack"},
+    # Mobile
+    "android": {"android"},
+    "ios": {"ios"},
+    "react native": {"react native"},
+    "flutter": {"flutter"},
+    # Tooling
+    "jira": {"jira"},
+    "confluence": {"confluence"},
 }
 
 
 def _alias_pattern(alias: str) -> re.Pattern[str]:
     # Escape regex specials (c++, c#, ci/cd, node.js) then require boundaries
     # that are not other word chars, so aliases embedded in longer words don't match.
+    #
+    # The left boundary also excludes a leading '.', so a file-extension suffix
+    # like ".js" / ".ts" in "react.js" or "node.ts" does NOT trip the short "js"
+    # / "ts" aliases. The right boundary stays permissive of '.', so "react.js"
+    # still matches the "react" alias.
     escaped = re.escape(alias)
-    return re.compile(rf"(?<![\w+#]){escaped}(?![\w+#])", re.IGNORECASE)
+    return re.compile(rf"(?<![\w+#.]){escaped}(?![\w+#])", re.IGNORECASE)
 
 
 _COMPILED = {
