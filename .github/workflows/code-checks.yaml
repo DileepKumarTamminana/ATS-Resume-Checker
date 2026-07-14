@@ -50,5 +50,7 @@ jobs:
         run: mypy ats
 
       # 5. Run the test suite with coverage.
+      #    Use `python -m pytest` so the project root is on sys.path and the
+      #    `ats` package imports cleanly (tests/ has no __init__.py).
       - name: Run tests with coverage
-        run: pytest -q --cov=ats --cov-report=term-missing
+        run: python -m pytest -q --cov=ats --cov-report=term-missing
