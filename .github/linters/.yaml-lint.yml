@@ -1,0 +1,10 @@
+# yamllint config used by Super-Linter (VALIDATE_YAML).
+extends: default
+rules:
+  line-length: disable
+  document-start: disable      # workflows don't need a leading ---
+  truthy:
+    check-keys: false          # allow the `on:` workflow trigger key
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: disable

@@ -30,7 +30,7 @@ jobs:
       - name: Install tooling
         run: |
           python -m pip install --upgrade pip
-          pip install ruff pytest
+          pip install ruff pytest pytest-cov mypy
 
       # 1. Syntax check — compile every .py file (catches SyntaxError).
       - name: Compile all Python files
@@ -45,6 +45,10 @@ jobs:
       - name: Lint (full, non-blocking)
         run: ruff check . || true
 
-      # 4. Run the test suite.
-      - name: Run tests
-        run: pytest -q
+      # 4. Static type checking (config in mypy.ini).
+      - name: Type check (mypy)
+        run: mypy ats
+
+      # 5. Run the test suite with coverage.
+      - name: Run tests with coverage
+        run: pytest -q --cov=ats --cov-report=term-missing
