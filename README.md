@@ -33,6 +33,11 @@ python webapp.py            # open http://localhost:8000
 python webapp.py --port 9000
 ```
 
+Includes a score ring with a weighted breakdown, matched/missing keyword tabs,
+a skills gap, ATS formatting checks, one-click **sample data**, a
+**download/copy Markdown report**, drag-&-drop upload, live word counts, and a
+light/dark theme toggle.
+
 (PDF/DOCX *upload* additionally needs `pypdf` / `python-docx`; pasting text and
 `.txt` upload work with no dependencies.)
 
