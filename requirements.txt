@@ -1,0 +1,8 @@
+# Core analyzer (ats/) uses only the Python standard library — no deps needed.
+
+# Web UI:
+streamlit>=1.32
+
+# Resume file parsing (PDF / DOCX). TXT/paste works without these.
+pypdf>=4.0
+python-docx>=1.1

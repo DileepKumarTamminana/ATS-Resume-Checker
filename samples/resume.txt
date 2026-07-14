@@ -1,0 +1,13 @@
+Jane Doe
+jane.doe@example.com | +1 555 123 4567 | linkedin.com/in/janedoe
+
+Professional Experience
+- Built REST APIs in Python using Django and FastAPI on AWS.
+- Deployed microservices with Docker and Kubernetes.
+- Wrote SQL queries against PostgreSQL and built CI/CD pipelines with Jenkins.
+
+Skills
+Python, SQL, Docker, Kubernetes, AWS, Django, FastAPI, Git
+
+Education
+B.S. in Computer Science
